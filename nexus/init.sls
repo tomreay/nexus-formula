@@ -8,6 +8,8 @@ include:
 {{ nexus.prefix }}:
   file.directory:
     - makedirs: True
+    - user: {{ nexus.username }}
+    - group: {{ nexus.username }}
 
 {{ nexus.username }}:
   user.present
@@ -15,6 +17,8 @@ include:
 {{ nexus.download_dir }}:
   file.directory:
     - makedirs: True
+    - user: {{ nexus.username }}
+    - group: {{ nexus.username }}
 
 {{ nexus.workdir }}/nexus:
   file.directory:
@@ -28,8 +32,8 @@ include:
 {{ nexus.piddir }}:
   file.directory:
     - makedirs: True
-    - user: nexus
-    - group: nexus
+    - user: {{ nexus.username }}
+    - group: {{ nexus.username }}
     - recurse:
       - user
       - group
@@ -39,6 +43,7 @@ unpack-nexus-tarball:
     - name: curl -L '{{ nexus.source_url }}' | tar xz
     - cwd: {{ nexus.download_dir }}
     - unless: test -d {{ nexus.home }}
+    - user: {{ nexus.username }}
     - require:
       - file: {{ nexus.prefix }}
       - file: {{ nexus.download_dir }}
@@ -70,6 +75,8 @@ move-nexus-dist:
   file.managed:
     - mode: 755
     - source: salt://nexus/files/nexus.properties
+    - user: {{ nexus.username }}
+    - group: {{ nexus.username }}
     - template: jinja
     - context:
       nexus_home: {{ nexus.home }}
