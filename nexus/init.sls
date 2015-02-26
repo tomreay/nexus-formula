@@ -77,6 +77,7 @@ move-nexus-dist:
     - source: salt://nexus/files/nexus.properties
     - user: {{ nexus.username }}
     - group: {{ nexus.username }}
+    - makedirs: True
     - template: jinja
     - context:
       nexus_home: {{ nexus.home }}
