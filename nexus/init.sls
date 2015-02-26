@@ -48,9 +48,6 @@ unpack-nexus-tarball:
       - file: {{ nexus.prefix }}
       - file: {{ nexus.download_dir }}
 
-{{ nexus.download_dir }}/sonatype_work:
-  file.absent
-
 move-nexus-dist:
   cmd.run:
     - name: mv {{ nexus.download_dir }}/nexus-* {{ nexus.real_home }}
